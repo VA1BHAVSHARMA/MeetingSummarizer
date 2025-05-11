@@ -72,7 +72,7 @@ def audio_to_text(audio_file):
             except sr.UnknownValueError:
                 text = ''
             fullSummary += f'{text} '
-    print("full text is ", fullSummary)
+    # print("full text is ", fullSummary)
     return fullSummary
 
 
