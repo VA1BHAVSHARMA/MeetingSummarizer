@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'null'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
