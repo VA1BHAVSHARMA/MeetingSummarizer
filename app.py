@@ -102,4 +102,4 @@ def send_email():
     return "Email Sent!"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
