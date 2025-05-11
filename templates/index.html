@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meeting Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('style', filename='styles.css') }}">
+    <!-- <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .summary-box { width: 100%; height: 300px; }
+        .history-box { display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+    </style> -->
+</head>
+<body>
+    <div class="app">
+        <div class="main_container">
+            <div class="heading"><h1 class="heading_text" >Meeting Summarizer and Plan of Action</h1>
+            {% if not session['user'] %}
+                <a href="{{ url_for('login') }}" class="login_btn_container"><button id="login_btn">Login 
+                    <span style="color: lightskyblue;">G</span>
+                    <span style="color: red;">o</span>
+                    <span style="color: yellow;">o</span>
+                    <span style="color: skyblue;">g</span>
+                    <span style="color: lightgreen;">l</span>
+                    <span style="color: red;">e</span></button></a>
+            {% else %}
+                <p class="welcome_container">Welcome, {{ session['user']['name'] }}!</p>
+                <a href="{{ url_for('logout') }}" class="login_btn_container"><button class="logout_btn">Logout</button></a>
+            {% endif %}
+            </div>
+
+            <div class="form_container">
+                <form method="post" action="{{ url_for('join_meeting') }}">
+                    <label 
+                        style="font-family: Georgia, 'Times New Roman', Times, serif;
+                            font-size: 1.5vw;
+                            font-weight: bold;
+                            "
+                    >Google Meet Summarizer</label>
+                    <!-- </br></br> -->
+                    <div class="meet_link_container">
+                        <label for="meeting_link" class="meet_link_label">Meeting Link:</label>
+                        <input type="text" id="meeting_link" name="meeting_link" required><br><br>
+                    </div>
+                    <button type="submit" class="join_btn">Join and Summarize</button>
+                </form>
+            </div>
+
+            <div class="summary_container">
+                {% if summary %}
+                    <h2 style="font-family: Georgia, 'Times New Roman', Times, serif;
+                            font-size: 1vw;
+                            ">Meeting Summary:</h2>
+                    <textarea class="summary-box" readonly>{{ summary }}</textarea><br>
+                    <form method="post" action="{{ url_for('send_email') }}">
+                        <input type="hidden" name="summary" value="{{ summary }}">
+                        <button type="submit" class="email_btn">Send Summary to Email</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="history_container">
+                <button onclick="toggleHistory()" class="history_btn">View History</button>
+                <div class="history-box" id="history-box">
+                    <ul>
+                        {% for item in history %}
+                            <li style="font-size: large;">{{ item.date }}: {{ item.summary }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <script>
+                function toggleHistory() {
+                    var box = document.getElementById('history-box');
+                    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
